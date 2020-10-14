@@ -11,22 +11,22 @@ syms m1 m2 m3 g;
 syms ddq1 ddq2 ddq3;
 
 % T1, T2, T3: kinetic energies of m1, m2, m3
-T1 = 0
-T2 = 0
-T3 = 0
+T1 = 1 / 2 * m1 * (dx1^2 + dz1^2);
+T2 = 1 / 2 * m2 * (dx2^2 + dz2^2);
+T3 = 1 / 2 * m3 * (dx3^2 + dz3^2);
 
 % V1, V2, V3: potential energies of m1, m2, m3
-V1 = 0
-V2 = 0
-V3 = 0
+V1 = m1*z1*g
+V2 = m2*z2*g
+V3 = m3*z3*g
 
-T = 0 % total kinetic energy 
-V = 0 % total potential energy 
+T = T1 + T2 + T3 % total kinetic energy 
+V = V1 + V2 + V3  % total potential energy 
 
 T = simplify(T, 'steps', 50);
-V = 0 % simplify V
+V = simplify(V, 'Steps',50)
+L = T - V %Lagrangian
 
-L = 0; % Lagrangian
 %% 
 % We use dLdqi for $\frac{\partial L}{\partial q_i}$ and  dLddqi for $\frac{\partial 
 % L}{\partial \dot q_i}$. 
