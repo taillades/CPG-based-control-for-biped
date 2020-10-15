@@ -31,17 +31,20 @@ L = T - V %Lagrangian
 % We use dLdqi for $\frac{\partial L}{\partial q_i}$ and  dLddqi for $\frac{\partial 
 % L}{\partial \dot q_i}$. 
 
-dLdq1 = 9
-dLdq2 = 0
-dLdq3 = 0
+dLdq1 = diff(L, q1);
+dLdq2 = diff(L, q2);
+dLdq3 = diff(L, q3);
 
-dLddq1 = 0
-dLddq2 = 0
-dLddq3 = 0
+dLddq1 = diff(L, dq1);
+dLddq2 = diff(L, dq2);
+dLddq3 = diff(L, dq3);
 
-dLddq1_dt = 0
-dLddq2_dt = 0
-dLddq3_dt = 0
+dLddq1_dt = diff(dLddq1, q1) * dq1 + diff(dLddq1, q2) * dq2 + diff(dLddq1, q3) * dq3 + ...
+    diff(dLddq1, dq1) * ddq1 + diff(dLddq1, dq2) * ddq2 + diff(dLddq1, dq3) * ddq3 
+dLddq2_dt = diff(dLddq2, q1) * dq1 + diff(dLddq2, q2) * dq2 + diff(dLddq2, q3) * dq3 + ...
+    diff(dLddq2, dq1) * ddq1 + diff(dLddq2, dq2) * ddq2 + diff(dLddq2, dq3) * ddq3 
+dLddq3_dt = diff(dLddq3, q1) * dq1 + diff(dLddq3, q2) * dq2 + diff(dLddq3, q3) * dq3 + ...
+    diff(dLddq3, dq1) * ddq1 + diff(dLddq3, dq2) * ddq2 + diff(dLddq3, dq3) * ddq3 
 %% Lagrange equations of motion
 % Recall: 
 % 
@@ -49,8 +52,8 @@ dLddq3_dt = 0
 % q_i} = 0$$
 
 Eq1 = dLddq1_dt - dLdq1;
-Eq2 = 0
-Eq3 = 0
+Eq2 = dLddq2_dt - dLdq2;
+Eq3 = dLddq3_dt - dLdq3;
 %% 
 % Calculate the matrices M, C, G in the equations of motion:
 % 
@@ -58,33 +61,33 @@ Eq3 = 0
 % 
 % Recall how you did this in assignment 1. 
 
-G(1, 1) = 0 % use subs as in assignment 1
-G(2, 1) = 0
-G(3, 1) = 0
+G(2, 1) = subs(Eq1, {ddq1, ddq2, ddq3, dq1, dq2, dq3}, {0, 0, 0, 0, 0, 0});
+G(2, 1) = subs(Eq2, {ddq1, ddq2, ddq3, dq1, dq2, dq3}, {0, 0, 0, 0, 0, 0});
+G(3, 1) = subs(Eq3, {ddq1, ddq2, ddq3, dq1, dq2, dq3}, {0, 0, 0, 0, 0, 0});
 
-M(1, 1) = 0
-M(1, 2) = 0
-M(1, 3) = 0
-M(2, 1) = 0
-M(2, 2) = 0
-M(2, 3) = 0
-M(3, 1) = 0
-M(3, 2) = 0
-M(3, 3) = 0
+M(1, 1) = subs(Eq1, {ddq1, ddq2, ddq3, dq1, dq2, dq3}, {1, 0, 0, 0, 0, 0}) - G(1);
+M(1, 2) = subs(Eq1, {ddq1, ddq2, ddq3, dq1, dq2, dq3}, {0, 1, 0, 0, 0, 0}) - G(1);
+M(1, 3) = subs(Eq1, {ddq1, ddq2, ddq3, dq1, dq2, dq3}, {0, 0, 1, 0, 0, 0}) - G(1);
+M(2, 1) = subs(Eq2, {ddq1, ddq2, ddq3, dq1, dq2, dq3}, {1, 0, 0, 0, 0, 0}) - G(2);
+M(2, 2) = subs(Eq2, {ddq1, ddq2, ddq3, dq1, dq2, dq3}, {0, 1, 0, 0, 0, 0}) - G(2);
+M(2, 3) = subs(Eq2, {ddq1, ddq2, ddq3, dq1, dq2, dq3}, {0, 0, 1, 0, 0, 0}) - G(2);
+M(3, 1) = subs(Eq3, {ddq1, ddq2, ddq3, dq1, dq2, dq3}, {1, 0, 0, 0, 0, 0}) - G(3);
+M(3, 2) = subs(Eq3, {ddq1, ddq2, ddq3, dq1, dq2, dq3}, {0, 1, 0, 0, 0, 0}) - G(3);
+M(3, 3) = subs(Eq3, {ddq1, ddq2, ddq3, dq1, dq2, dq3}, {0, 0, 1, 0, 0, 0}) - G(3);
 
-C(1, 1) = 0
-C(1, 2) = 0
-C(1, 3) = 0
-C(2, 1) = 0
-C(2, 2) = 0
-C(2, 3) = 0
-C(3, 1) = 0
-C(3, 2) = 0
-C(3, 3) = 0
+C(1, 1) = (subs(Eq1, {ddq1, ddq2, ddq3, dq1, dq2, dq3}, {0, 0, 0, dq1, 0, 0}) - G(1))/dq1;
+C(1, 2) = (subs(Eq1, {ddq1, ddq2, ddq3, dq1, dq2, dq3}, {0, 0, 0, 0, dq2, 0}) - G(1))/dq2;
+C(1, 3) = (subs(Eq1, {ddq1, ddq2, ddq3, dq1, dq2, dq3}, {0, 0, 0, 0, 0, dq3}) - G(1))/dq3;
+C(2, 1) = (subs(Eq2, {ddq1, ddq2, ddq3, dq1, dq2, dq3}, {0, 0, 0, dq1, 0, 0}) - G(1))/dq1;
+C(2, 2) = (subs(Eq2, {ddq1, ddq2, ddq3, dq1, dq2, dq3}, {0, 0, 0, 0, dq2, 0}) - G(1))/dq2;
+C(2, 3) = (subs(Eq2, {ddq1, ddq2, ddq3, dq1, dq2, dq3}, {0, 0, 0, 0, 0, dq3}) - G(1))/dq3;
+C(3, 1) = (subs(Eq3, {ddq1, ddq2, ddq3, dq1, dq2, dq3}, {0, 0, 0, dq1, 0, 0}) - G(1))/dq1;
+C(3, 2) = (subs(Eq3, {ddq1, ddq2, ddq3, dq1, dq2, dq3}, {0, 0, 0, 0, dq2, 0}) - G(1))/dq2;
+C(3, 3) = (subs(Eq3, {ddq1, ddq2, ddq3, dq1, dq2, dq3}, {0, 0, 0, 0, 0, dq3}) - G(1))/dq3;
 %%
 G = simplify(G, 'steps', 50)
-M = 0 % simplify M
-C = 0 % simplify C
+M = simplify(M, 'steps', 50)
+C = simplify(C, 'steps', 50)
 %% 
 % To check if the extraction of M, C, G is correct. Note that error being zero 
 % does not mean that all your calculations of M, C, and G are correct. 
