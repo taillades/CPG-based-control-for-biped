@@ -35,6 +35,7 @@ function visualize(q)
     % generalized coordinate q = [q1, q2, q3]:
     close all
     lw = 2;
+    
     % links
     % link1: HIP TO STANCE FOOT
     plot([0, x_h], [0, z_h], 'linewidth', lw); 
