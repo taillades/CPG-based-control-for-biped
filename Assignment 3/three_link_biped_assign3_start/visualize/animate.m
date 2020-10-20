@@ -8,16 +8,17 @@ function animate(sln)
 figure();
 skip = 5; 
 
-num_steps = % total number of steps the robot has taken (find this from sln)
+num_steps = size(sln.T)% total number of steps the robot has taken (find this from sln)
 r0 = [0; 0];
 tic();
 for j = 1:num_steps
-    Y = %
+    Y = sln.Y%
     [N, ~] = size(Y);
     for i = 1:skip:N % what does skip do?
-        q = %
+        q = Y(i,1 : 3)%
         pause(0.002);  % pause for 2 mili-seconds
         % visualize :
+        visualize(q, r0);
         
         hold off
     end
