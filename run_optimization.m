@@ -6,7 +6,8 @@ close all;
 % optimize the initial conditions and controller hyper parameters
 q0 = [pi/9; -pi/9; 0];
 dq0 = [0; 0; 8]; 
-x0 = [q0; dq0; control_hyper_parameters()];
+n0 = [1; 0; 0; 1; -0.5 ; 0; 0; -0.5]; % ne_sw, nf_sw, dne_sw, dnf_sw, ne_st, nf_st, dne_st, dnf_st 
+x0 = [q0; dq0; n0; control_hyper_parameters()];
 
 % use fminsearch and optimset to control the MaxIter
 options = optimset('TolFun',1e-2,'MaxIter',50,'display','iter');
@@ -18,10 +19,11 @@ param_opt = fminsearch(@optimziation_fun,x0,options)
 % extract parameters
 q0 = param_opt(1:3);
 dq0 = param_opt(4:6);
-x_opt = param_opt(7:end);
+n0 = param_opt(7:14);
+x_opt = param_opt(15:end);
 
 % simulate
 num_steps = 10;
-sln = solve_eqns(q0, dq0, num_steps, x_opt);
+sln = solve_eqns(q0, dq0, n0, num_steps, x_opt);
 animate(sln);
 results = analyse(sln, x_opt, true);
