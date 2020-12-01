@@ -1,1 +1,1 @@
-Assignment 4 is at your disposal ! Please have fun modifying output of the optimization function "optimziation_fun" to modify the gaits. To see the results, run the "run_optimization" file.
+Started to implement Neuron Oscillator in eqns
