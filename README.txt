@@ -7,3 +7,4 @@ It compiles but the NO does wtf
 - I suppose that the output of the NO is u. Another option would be that output of NO is y_desired and you give the PD controller y_desired-y_real, and PD gives u
 - n0 values are taken from the internet code, more or less
 - there are 11 parameters + 14 initial values and 14 differential equations to optimize, I wouldn't be surprised if optimization needs a loooooot of iterations to be a bit useful
+- how about including NO to the impact map, i.e swing NO always controls swing leg ?
