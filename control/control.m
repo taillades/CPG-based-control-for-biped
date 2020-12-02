@@ -1,7 +1,12 @@
 function u = control(t, q, dq, q0, dq0, step_number, parameters)
 % You may call control_hyper_parameters and desired_outputs in this function
 % you don't necessarily need to use all the inputs to this control function
-
+kp1 = 457.5;
+kp2 = 161;
+kd1 = 77.05;                     
+kd2 = 5;
+alpha = 10.4 * pi / 180;
+parameters = [kp1, kp2, kd1, kd2, alpha]';
 % extract parameters
 kp1 = parameters(1);
 kp2 = parameters(2);

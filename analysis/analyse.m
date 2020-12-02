@@ -95,7 +95,7 @@ if to_plot
 
     subplot(5,4,[4 8])
     
-    plot(t,movmean(dx_h,max(fft(dx_h))))
+    plot(t,movmean(dx_h,1000))
     title('Mean velocity')
     xlabel('t');
     ylabel('$\dot{z}_h$', 'Interpreter','latex');    
@@ -115,6 +115,56 @@ if to_plot
     xlabel('t');
     ylabel('u_2');
     
+    % Plot neuron oscillator stuff
+    
+    figure('Name','Neuron Oscillator Values','Numbertitle','off')
+    subplot(2,4,1)
+    plot(t,y(:,7))
+    title('ne_sw');
+    xlabel('t');
+    ylabel('ne_sw');   
+    
+    subplot(2,4,2)
+    plot(t,y(:,8))
+    title('nf_sw');
+    xlabel('t');
+    ylabel('nf_sw'); 
+    
+    subplot(2,4,3)
+    plot(t,y(:,9))
+    title('dne_sw');
+    xlabel('t');
+    ylabel('dne_sw'); 
+    
+    subplot(2,4,4)
+    plot(t,y(:,10))
+    title('dnf_sw');
+    xlabel('t');
+    ylabel('dnf_sw');
+    
+    subplot(2,4,5)
+    plot(t,y(:,11))
+    title('ne_st');
+    xlabel('t');
+    ylabel('ne_st');   
+    
+    subplot(2,4,6)
+    plot(t,y(:,12))
+    title('nf_st');
+    xlabel('t');
+    ylabel('nf_st'); 
+    
+    subplot(2,4,7)
+    plot(t,y(:,13))
+    title('dne_st');
+    xlabel('t');
+    ylabel('dne_st'); 
+    
+    subplot(2,4,8)
+    plot(t,y(:,14))
+    title('dnf_st');
+    xlabel('t');
+    ylabel('dnf_st');
 end
 
 

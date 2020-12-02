@@ -4,10 +4,10 @@ function objective_value = optimziation_fun(parameters)
 q0 = parameters(1:3);
 dq0 = parameters(4:6);
 n0 = parameters(7:14);
-x = parameters(14:end);
+x = parameters(15:end);
 
 % run simulation
-num_steps = 10; % the higher the better, but slow
+num_steps = 15; % the higher the better, but slow
 sln = solve_eqns(q0, dq0, n0, num_steps, x);
 results = analyse(sln, x, false);
 
@@ -15,11 +15,11 @@ results = analyse(sln, x, false);
 max_actuation = 30;
 effort = results(:,5);
 distance = results(:,1);
-velocity = results(:,3) %corresponding to sp_mean on analyse.m, can be changed
-CoT = results(:,6) % weird that it can become negative...
+velocity = results(:,3); %corresponding to sp_mean on analyse.m, can be changed
+CoT = results(:,6); % weird that it can become negative...
 
 % Name weights
-w1 = 1; w2 = 1;
+w1 = -1; w2 = 1;
 objective_value = w1*abs(distance) + w2*abs(CoT);
 
 % handle corner case when model walks backwards (e.g., objective_value =
