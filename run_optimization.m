@@ -6,7 +6,7 @@ close all;
 % optimize the initial conditions and controller hyper parameters
 q0 = [pi/9; -pi/9; 0];
 dq0 = [0; 0; 8]; 
-n0 = [1; 0; 0; 1; -0.5 ; 0; 0; -0.5]; % ne_sw, nf_sw, dne_sw, dnf_sw, ne_st, nf_st, dne_st, dnf_st 
+n0 = [0.01; 0.002; 0.008; 0.006; -0.01; -0.002; -0.008; -0.006]; % ne_sw, nf_sw, dne_sw, dnf_sw, ne_st, nf_st, dne_st, dnf_st 
 x0 = [q0; dq0; n0; control_hyper_parameters()];
 
 % use fminsearch and optimset to control the MaxIter

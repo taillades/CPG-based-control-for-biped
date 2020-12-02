@@ -13,6 +13,8 @@ ye = sln.YE{end};
 
 [x_h, z_h, dx_h, dz_h] = kin_hip(y(:,1:3), y(:,4:6));
 
+% that means optimization doesn't need us to compute explicit u to optimize
+% it
 u = zeros(length(t),2);
 for i = 1:length(t)
     u(i,:) = control(t(i), y(i,1:3), y(i,4:6), y(1,1:3), y(1,4:6), 0, parameters);
