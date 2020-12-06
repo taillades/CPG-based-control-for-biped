@@ -43,7 +43,7 @@ save('param_opt','param_opt');
 %% simulate solution
 clc
 close all;
-
+param_opt(10:end) = control_hyper_parameters;
 % extract parameters
 q0 = param_opt(1:3);
 dq0 = param_opt(4:6);
