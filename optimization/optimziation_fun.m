@@ -3,12 +3,13 @@ function objective_value = optimziation_fun(parameters)
 % extract parameters q0, dq0 and x
 q0 = parameters(1:3);
 dq0 = parameters(4:6);
-n0 = parameters(7:14);
-x = parameters(15:end);
+n0 = parameters(7:9);
+x = parameters(10:end);
+fun_g = load('fun_g');
 
 % run simulation
 num_steps = 15; % the higher the better, but slow
-sln = solve_eqns(q0, dq0, n0, num_steps, x);
+sln = solve_eqns(q0, dq0, n0, num_steps, x, fun_g.fun_g);
 results = analyse(sln, x, false);
 
 % calculate metrics such as distance, mean velocity and cost of transport

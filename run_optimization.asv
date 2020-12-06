@@ -6,24 +6,52 @@ close all;
 % optimize the initial conditions and controller hyper parameters
 q0 = [pi/9; -pi/9; 0];
 dq0 = [0; 0; 8]; 
-n0 = [0.1; 0.1; 0; 0; -5 ; 0; 0; -0.5]; % ne_sw, nf_sw, dne_sw, dnf_sw, ne_st, nf_st, dne_st, dnf_st 
-x0 = [q0; dq0; n0; control_hyper_parameters()];
+n0 = [30; -11.5; 0];
+parameters = control_hyper_parameters();
+omega = parameters(6);
+fun_g = g(omega);
+save('fun_g','fun_g');
+
+x0 = [q0; dq0; n0; parameters];
+
 
 % use fminsearch and optimset to control the MaxIter
-options = optimset('TolFun',1e-2,'MaxIter',50,'display','iter');
-param_opt = fminsearch(@optimziation_fun,x0,options)
+options = optimset('TolFun',1e-2,'MaxIter',30,'display','iter');
+param_opt = fminsearch(@optimziation_fun,x0,options);
+disp("q");
+param_opt(1:3)
+disp("dq");
+param_opt(4:6)
+disp("x");
+param_opt(7:8)
+disp("teta_0");
+param_opt(9)
+disp("kp");
+param_opt(10:11)
+disp("kd");
+param_opt(12:13)
+disp("alpha");
+param_opt(14)
+disp("omega");
+param_opt(15)
+disp("gamma");
+param_opt(16)
+disp("K");
+param_opt(17)
 
 
 %% simulate solution
+clc
+close all;
 
 % extract parameters
 q0 = param_opt(1:3);
 dq0 = param_opt(4:6);
-n0 = param_opt(7:14);
-x_opt = param_opt(15:end);
+n0 = param_opt(7:9);
+x_opt = param_opt(10:end);
 
 % simulate
-num_steps = 10;
-sln = solve_eqns(q0, dq0, n0, num_steps, x_opt);
+num_steps = 15;
+sln = solve_eqns(q0, dq0, n0, num_steps, x_opt, fun_g);
 animate(sln);
 results = analyse(sln, x_opt, true);

@@ -6,7 +6,7 @@
 % number of steps the robot is supposed to take
 % As an example you can use q0 = [pi/6; -pi/3; 0] and dq0 = [0;0;8]. 
 
-function sln = solve_eqns(q0, dq0, n0, num_steps, parameters)
+function sln = solve_eqns(q0, dq0, n0, num_steps, parameters, fun_g)
 
 options = odeset('RelTol',1e-5, 'Events', @event_func);
 h = 0.001; % time step
@@ -24,7 +24,7 @@ sln.YE = {};
 
 
 for i = 1:num_steps
-    [T, Y, TE, YE] = ode45(@(t, y) eqns(t, y, y0, i, parameters), t0 + tspan, y0, options);
+    [T, Y, TE, YE] = ode45(@(t, y) eqns(t, y, y0, i, parameters, fun_g), t0 + tspan, y0, options);
     sln.T{i} = T;
     sln.Y{i} = Y;
     sln.TE{i} = TE;
@@ -41,10 +41,9 @@ for i = 1:num_steps
     % Impact map
     q_m = YE(1:3)';
     dq_m = YE(4:6)';
-    n = YE(7:14)';
+    n = YE(7:8)';
     [q_p, dq_p] = impact(q_m, dq_m);
-    
-    y0 = [q_p; dq_p; n];
+    y0 = [q_p; dq_p; n ; YE(9) ]; % 0 to reset teta at impact as teta is y(9)
     t0 = T(end);
     
 end

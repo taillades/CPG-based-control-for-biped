@@ -3,12 +3,11 @@ clear;
 close all;
 
 
-
 % run simulation
 q0 = [pi/9; -pi/9; 0];
 dq0 = [0; 0; 8]; 
-n0 = [0.01; 0.002; 0.008; 0.006; -0.01; -0.002; -0.008; -0.006]; % ne_sw, nf_sw, dne_sw, dnf_sw, ne_st, nf_st, dne_st, dnf_st 
-
+n0 = [30; -11.5; 0];
+    
 num_steps = 10;
 
 default_parameters = control_hyper_parameters();

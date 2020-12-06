@@ -20,6 +20,8 @@ for i = 1:length(t)
     u(i,:) = control(t(i), y(i,1:3), y(i,4:6), y(1,1:3), y(1,4:6), 0, parameters);
 end
 
+save('g','u');
+
 dist = x_h(end);
 sp_max = max(dx_h);
 sp_min = min(dx_h);
@@ -118,53 +120,41 @@ if to_plot
     % Plot neuron oscillator stuff
     
     figure('Name','Neuron Oscillator Values','Numbertitle','off')
-    subplot(2,4,1)
+    subplot(3,2,1)
     plot(t,y(:,7))
-    title('ne_sw');
+    title('x1');
     xlabel('t');
-    ylabel('ne_sw');   
+    ylabel('x1');   
+        
+    subplot(3,2,2)
+    plot(y(:,9),y(:,7))
+    title('x1~teta');
+    xlabel('teta');
+    ylabel('x1'); 
     
-    subplot(2,4,2)
+    subplot(3,2,3)
     plot(t,y(:,8))
-    title('nf_sw');
+    title('x2');
     xlabel('t');
-    ylabel('nf_sw'); 
+    ylabel('x2'); 
     
-    subplot(2,4,3)
+    subplot(3,2,4)
+    plot(y(:,9),y(:,8))
+    title('x2~teta');
+    xlabel('teta');
+    ylabel('teta'); 
+            
+    subplot(3,2,5)
     plot(t,y(:,9))
-    title('dne_sw');
+    title('teta');
     xlabel('t');
-    ylabel('dne_sw'); 
-    
-    subplot(2,4,4)
-    plot(t,y(:,10))
-    title('dnf_sw');
+    ylabel('teta'); 
+        
+    subplot(3,2,6)
+    plot(t,y(:,9))
+    title('teta');
     xlabel('t');
-    ylabel('dnf_sw');
-    
-    subplot(2,4,5)
-    plot(t,y(:,11))
-    title('ne_st');
-    xlabel('t');
-    ylabel('ne_st');   
-    
-    subplot(2,4,6)
-    plot(t,y(:,12))
-    title('nf_st');
-    xlabel('t');
-    ylabel('nf_st'); 
-    
-    subplot(2,4,7)
-    plot(t,y(:,13))
-    title('dne_st');
-    xlabel('t');
-    ylabel('dne_st'); 
-    
-    subplot(2,4,8)
-    plot(t,y(:,14))
-    title('dnf_st');
-    xlabel('t');
-    ylabel('dnf_st');
+    ylabel('teta'); 
 end
 
 
