@@ -1,0 +1,21 @@
+function fun_g = g(omega, display)
+    g1 = load('g1.mat');
+    g2 = load('g2.mat');
+
+    p = polyfit(1:length(g1.u1),g1.u1,10);
+    fun_g.g1 = @(teta) min(30,polyval(p,omega*teta));
+
+    p = polyfit(1:length(g2.u2),g2.u2,10);
+    fun_g.g2 = @(teta) min(30,polyval(p,omega*teta));
+
+    fun_g.dg1 = diff(fun_g.g1);
+    
+    fun_g.dg2 = diff(fun_g.g2);
+    
+    if display
+        x = 1:length(g1);
+        figure
+        subplot(2
+        plot(x, g1, x, fun_g.g1(x));
+        
+end
