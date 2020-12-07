@@ -13,10 +13,11 @@ save('fun_g','fun_g');
 
 x0 = [q0; dq0; n0; parameters];
 
-
+load('param_opt');
 % use fminsearch and optimset to control the MaxIter
-options = optimset('TolFun',1e-2,'MaxIter',30,'display','iter');
-param_opt = fminsearch(@optimziation_fun,x0,options);
+options = optimset('TolX',0.2,'MaxIter',30,'display','iter');
+%optimize only omega
+param_opt(15:17) = fminsearch(@custom_optimization_fun,x0(15:17),options)
 disp("q");
 param_opt(1:3)
 disp("dq");
@@ -51,7 +52,6 @@ n0 = param_opt(7:9);
 x_opt = param_opt(10:end);
 
 % simulate
-num_steps = 15;
+num_steps = 50;
 sln = solve_eqns(q0, dq0, n0, num_steps, x_opt, fun_g);
-animate(sln);
-results = analyse(sln, x_opt, true);
+animate(sln);results = analyse(sln, x_opt,0,0);

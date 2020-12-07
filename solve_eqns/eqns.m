@@ -10,8 +10,8 @@ q = [y(1); y(2); y(3)];
 dq = [y(4); y(5); y(6)];
 q0 = [y0(1); y0(2); y0(3)];
 dq0 = [y0(4); y0(5); y0(6)];
-x1 = y(7);
-x2 = y(8);
+x1 = min(30,max(-30,y(7)));
+x2 = min(30,max(-30,y(8)));
 teta = y(9);
 
 % Get matrix for the q derivative stuff
@@ -31,7 +31,6 @@ dg2 = fun_g.dg2;
 u_pd = control(t, q, dq, q0, dq0, step_number, parameters); 
 u_ff = [x1 ; x2];
 ratio = 0.5; %u_ff vs u_pd ratio in control
-
 % Formulate the differential equations
 dy = zeros(9, 1);
 

@@ -6,9 +6,13 @@ kp1 = param_opt(10);
 kp2 = param_opt(11);
 kd1 = param_opt(12);               
 kd2 = param_opt(13);
+kp1 = 457.5;
+kp2 = 161 * 1.5;
+kd1 = 77.05;                     
+kd2 = 5*1.5;
 alpha = param_opt(14);
-omega = 7.5;%param_opt(15);
-gamma = param_opt(16);
+omega = 0.8*pi;%param_opt(15); => VITESSE DES PAS
+gamma = 85;%param_opt(16);    => REACTIVITE
 K = param_opt(17);
 parameters = [kp1, kp2, kd1, kd2, alpha, omega, gamma, K]';
 end

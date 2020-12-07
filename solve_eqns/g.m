@@ -2,15 +2,15 @@ function fun_g = g
     g1 = load('g1.mat');
     g2 = load('g2.mat');
     display = 0;
-
-    p = polyfit(linspace(0,2*pi,length(g1.u1)),g1.u1,10);
-    fun_g.g1 = @(teta) max(-30,min(30,polyval(p,max(0,min(2*pi,teta)))));
+    len = 2*round(length(g1.u1)/2);
+    p = polyfit(linspace(0,pi,len),[g1.u1(1:len/2) g2.u2(len/2+1:end)],10);
+    fun_g.g1 = @(teta) max(-30,min(30,polyval(p,max(0,min(pi,teta)))));
     
     p = polyder(p);
     fun_g.dg1 = @(teta) polyval(p,teta);
 
-    p = polyfit(linspace(0,2*pi,length(g1.u1)),g2.u2,10);
-    fun_g.g2 = @(teta) max(-30,min(30,polyval(p,max(0,min(2*pi,teta)))));
+    p = polyfit(linspace(0,pi,len),[g2.u2(len/2+1:end) g1.u1(1:len/2)],10);
+    fun_g.g2 = @(teta) max(-30,min(30,polyval(p,max(0,min(pi,teta)))));
 
     p = polyder(p);
     fun_g.dg2 = @(teta) polyval(p,teta);
