@@ -34,15 +34,19 @@ ratio = 0.5; %u_ff vs u_pd ratio in control
 % Formulate the differential equations
 dy = zeros(9, 1);
 
-% dq1, dq2, dq3 
-%ADD DISTURBANCE
-
+%ADD EXTERNAL DISTURBANCE
 % create artificial random
-amplitude = 3;
-big_number = 97*x1+101*x2+103;
-dy(1) = y(4) +amplitude/7*(mod(big_number,7)-3.5);
-dy(2) = y(5)+ amplitude/5*(mod(big_number,5)-2.5);
-dy(3) = y(6)+ amplitude/11*(mod(big_number,11)-5.5);
+% amplitude = 5;
+% prime_numbers = [467 389 397 379 269 311 293 491 449];
+% smaller_prime_numbers = [5 7 11];
+% s = smaller_prime_numbers;
+% variables = [q; dq; x1; x2; teta];
+% big_number = prime_numbers*variables;
+
+% dq1, dq2, dq3 
+dy(1) = y(4);%+ amplitude*(mod(big_number,s(1))-s(1)/2)/s(1);
+dy(2) = y(5);%+ amplitude*(mod(big_number,s(2))-s(2)/2)/s(2);
+dy(3) = y(6);%+ amplitude*(mod(big_number,s(3))-s(3)/2)/s(3);
 
 % q1, q2, q3
 dy(4:6) = M \ (-C*dq - G + B*(ratio*u_ff + (1-ratio)*u_pd)); 

@@ -20,8 +20,8 @@ velocity = results(:,3); %corresponding to sp_mean on analyse.m, can be changed
 CoT = results(:,6); % weird that it can become negative...
 
 % Name weights
-w1 = -1; w2 = 1;
-objective_value = w1*abs(distance) + w2*abs(CoT);
+w1 = 1; w2 = 1;
+objective_value = w1*distance;% + w2*abs(CoT);
 
 % handle corner case when model walks backwards (e.g., objective_value =
 % 1000)

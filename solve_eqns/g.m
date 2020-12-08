@@ -24,6 +24,7 @@ if strcmp(mode, 'polynomial')
     fun_g.dg2 = @(teta) polyval(dp2,teta);
 end
 
+% IMPORTANT PART
 if strcmp(mode, 'suite')
     % only option is full
     fun_g.g1 = @(teta) g1.u1(round(mod(teta,pi)/pi*len)+1);

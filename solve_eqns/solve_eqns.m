@@ -41,7 +41,7 @@ for i = 1:num_steps
     % Impact map
     q_m = YE(1:3)';
     dq_m = YE(4:6)';
-    n = YE(7:8)';
+    n = Y(1,7:8)';
     [q_p, dq_p] = impact(q_m, dq_m);
     y0 = [q_p; dq_p; n ; 0]; % 0 to reset teta at impact as teta is y(9)
     t0 = T(end);
