@@ -12,7 +12,7 @@ kd1 = 77.05;
 kd2 = 5 ;
 alpha = param_opt(14);
 omega = 1.4*2*pi; %param_opt(15); %   => VITESSE DES PAS
-gamma = 100;param_opt(16); %   => REACTIVITE
+gamma = 90;param_opt(16); %   => REACTIVITE
 K =     param_opt(17);
 parameters = [kp1, kp2, kd1, kd2, alpha, omega, gamma, K]';
 end

@@ -145,13 +145,13 @@ if (to_plot_all || to_plot_NO)
     ylabel('x2');
     
     subplot(3,2,5)
-    plot(t,y(:,9),'b',t,2*pi,'r')
+    plot(t,y(:,9),'b',t,pi,'-r')
     title('teta');
     xlabel('t');
     ylabel('teta');
     
     subplot(3,2,6)
-    plot(t,y(:,9),'b',t,2*pi,'r')
+    plot(t,y(:,9),'b',t,pi,'-r')
     title('teta');
     xlabel('t');
     ylabel('teta');

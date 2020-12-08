@@ -14,19 +14,26 @@ save('fun_g','fun_g');
 x0 = [q0; dq0; n0; parameters];
 
 load('param_opt');
+
+%% THIS PART IS TO DO LOCAL OPTIMIZATION, UNAVAILABLE AT THE MOMENT
 % use fminsearch and optimset to control the MaxIter
 options = optimset('TolX',0.2,'MaxIter',30,'display','iter');
-%optimize only omega
-%param_opt(15:17) = fminsearch(@custom_optimization_fun,x0(15:17),options)
-% problem = createOptimProblem('fmincon',...
-%     'objective',@(x)custom_optimization_fun(x),...
-%     'x0',parameters,'options',...
-%     optimoptions(@fmincon,'Algorithm','sqp','Display','off'));
-% param_opt(10:17) = fmincon(problem);
-% gs = GlobalSearch('Display','iter');
-% rng(14,'twister') % for reproducibility
-% [x,fval] = run(gs,problem)
+%optimize only omega, gamma, K
+param_opt(15:17) = fminsearch(@custom_optimization_fun,x0(15:17),options)
+save('param_opt','param_opt');
 
+%% THIS PART IS TO DO GLOABL OPTIMIZATION, AVAILABLE
+problem = createOptimProblem('fmincon',...
+    'objective',@(x)custom_optimization_fun(x),...
+    'x0',parameters,'options',...
+    optimoptions(@fmincon,'Algorithm','sqp','Display','off'));
+param_opt(10:17) = fmincon(problem);
+gs = GlobalSearch('Display','iter');
+rng(14,'twister') % for reproducibility
+[x,fval] = run(gs,problem)
+save('param_opt','param_opt');
+
+%% DISPLAY RESULTS
 disp("q");
 param_opt(1:3)
 disp("dq");
@@ -48,8 +55,6 @@ param_opt(16)
 disp("K");
 param_opt(17)
 
-save('param_opt','param_opt');
-
 %% simulate solution
 clc
 close all;
@@ -63,4 +68,5 @@ x_opt = param_opt(10:end);
 % simulate
 num_steps = 10;
 sln = solve_eqns(q0, dq0, n0, num_steps, x_opt, fun_g);
-animate(sln);results = analyse(sln, x_opt,0,1);
+animate(sln);
+results = analyse(sln, x_opt,0,1);

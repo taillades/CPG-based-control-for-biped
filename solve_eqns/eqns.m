@@ -37,11 +37,12 @@ dy = zeros(9, 1);
 % dq1, dq2, dq3 
 %ADD DISTURBANCE
 
-%disturb_std = 1;
-%disturb = random('normal',0,disturb_std,[3,1]);
-dy(1) = y(4);%+disturb(1);
-dy(2) = y(5);%+disturb(2);
-dy(3) = y(6);%+disturb(3);
+% create artificial random
+amplitude = 3;
+big_number = 97*x1+101*x2+103;
+dy(1) = y(4) +amplitude/7*(mod(big_number,7)-3.5);
+dy(2) = y(5)+ amplitude/5*(mod(big_number,5)-2.5);
+dy(3) = y(6)+ amplitude/11*(mod(big_number,11)-5.5);
 
 % q1, q2, q3
 dy(4:6) = M \ (-C*dq - G + B*(ratio*u_ff + (1-ratio)*u_pd)); 
