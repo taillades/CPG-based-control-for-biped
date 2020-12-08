@@ -8,7 +8,7 @@ q0 = [pi/9; -pi/9; 0];
 dq0 = [0; 0; 8]; 
 n0 = [30; -11.5; 0];
 parameters = control_hyper_parameters();
-fun_g = g;
+fun_g = g('full','suite');
 save('fun_g','fun_g');
 
 x0 = [q0; dq0; n0; parameters];
@@ -17,7 +17,16 @@ load('param_opt');
 % use fminsearch and optimset to control the MaxIter
 options = optimset('TolX',0.2,'MaxIter',30,'display','iter');
 %optimize only omega
-param_opt(15:17) = fminsearch(@custom_optimization_fun,x0(15:17),options)
+%param_opt(15:17) = fminsearch(@custom_optimization_fun,x0(15:17),options)
+% problem = createOptimProblem('fmincon',...
+%     'objective',@(x)custom_optimization_fun(x),...
+%     'x0',parameters,'options',...
+%     optimoptions(@fmincon,'Algorithm','sqp','Display','off'));
+% param_opt(10:17) = fmincon(problem);
+% gs = GlobalSearch('Display','iter');
+% rng(14,'twister') % for reproducibility
+% [x,fval] = run(gs,problem)
+
 disp("q");
 param_opt(1:3)
 disp("dq");
@@ -52,6 +61,6 @@ n0 = param_opt(7:9);
 x_opt = param_opt(10:end);
 
 % simulate
-num_steps = 50;
+num_steps = 10;
 sln = solve_eqns(q0, dq0, n0, num_steps, x_opt, fun_g);
-animate(sln);results = analyse(sln, x_opt,0,0);
+animate(sln);results = analyse(sln, x_opt,0,1);

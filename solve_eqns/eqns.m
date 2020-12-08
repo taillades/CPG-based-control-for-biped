@@ -34,10 +34,14 @@ ratio = 0.5; %u_ff vs u_pd ratio in control
 % Formulate the differential equations
 dy = zeros(9, 1);
 
-% dq1, dq2, dq3
-dy(1) = y(4);
-dy(2) = y(5);
-dy(3) = y(6);
+% dq1, dq2, dq3 
+%ADD DISTURBANCE
+
+%disturb_std = 1;
+%disturb = random('normal',0,disturb_std,[3,1]);
+dy(1) = y(4);%+disturb(1);
+dy(2) = y(5);%+disturb(2);
+dy(3) = y(6);%+disturb(3);
 
 % q1, q2, q3
 dy(4:6) = M \ (-C*dq - G + B*(ratio*u_ff + (1-ratio)*u_pd)); 
