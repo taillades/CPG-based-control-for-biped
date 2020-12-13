@@ -1,9 +1,11 @@
-function results = analyse(sln, parameters, to_plot_all, to_plot_NO)
+function results = analyse(sln, parameters, to_plot_all, to_plot_NO, to_plot_gait)
 
-t = []; y = [];
+t = []; y = []; gait_len = []; gait_freq = [];
 for i = 1:length(sln.T)
     t = [t; sln.T{i}];
     y = [y; sln.Y{i}];  % corresponds to q1,q2,q3,dq1,dq2,dq3
+    gait_freq(i) = sln.T{i}(end)-sln.T{i}(1) ;
+    [~,gait_len(i),~,~] = kin_hip(sln.Y{i}(end,1:3)-sln.Y{i}(1,1:3),sln.Y{i}(end,4:6)-sln.Y{i}(1,4:6)) ;
 end
 te = sln.TE{end};
 ye = sln.YE{end};
@@ -28,8 +30,11 @@ sp_min = min(dx_h);
 effort = 1./(2*length(u(:,1))*30)*(u(:,1)'*u(:,1)+u(:,2)'*u(:,2));
 CoT = effort/(x_h(end)-x_h(1));
 sp_mean = mean(abs(dx_h));
+hip_min = min(z_h);
+hip_start = z_h(1);
 
-results = [dist,sp_max, sp_mean, sp_min, effort, CoT];
+
+results = [dist,sp_max, sp_mean, sp_min, mean(gait_len), CoT, hip_min, hip_start, std(gait_len), mean(gait_freq)];
 
 % calculate actuation (you can use the control function)
 
@@ -116,9 +121,24 @@ if to_plot_all
     title('U_2 actuator')
     xlabel('t');
     ylabel('u_2');
+    
+
 end
+if to_plot_gait
+    figure('Name','Gait','Numbertitle','off')
+    x = 1:length(gait_len);
+    plot(x,gait_len,'b+')%,x,polyval(polyfit(x, gait_len,3),x),'r-');
+    title('Gait length')
+    xlabel('t');
+    ylabel('Step length');
+    legend('gait length','fit of the datapoints');
+end
+
 % Plot neuron oscillator stuff
 if (to_plot_all || to_plot_NO)
+    
+
+    
     figure('Name','Neuron Oscillator Values','Numbertitle','off')
     subplot(3,2,1)
     plot(t,y(:,7))

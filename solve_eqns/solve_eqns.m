@@ -6,7 +6,7 @@
 % number of steps the robot is supposed to take
 % As an example you can use q0 = [pi/6; -pi/3; 0] and dq0 = [0;0;8]. 
 
-function sln = solve_eqns(q0, dq0, n0, num_steps, parameters, fun_g)
+function sln = solve_eqns(q0, dq0, n0, num_steps, parameters, fun_g, noise)
 
 options = odeset('RelTol',1e-5, 'Events', @event_func);
 h = 0.001; % time step
@@ -22,9 +22,8 @@ sln.Y = {};
 sln.TE = {};
 sln.YE = {};
 
-
 for i = 1:num_steps
-    [T, Y, TE, YE] = ode45(@(t, y) eqns(t, y, y0, i, parameters, fun_g), t0 + tspan, y0, options);
+    [T, Y, TE, YE] = ode45(@(t, y) eqns(t, y, y0, i, parameters, fun_g, noise(i,:)), t0 + tspan, y0, options);
     sln.T{i} = T;
     sln.Y{i} = Y;
     sln.TE{i} = TE;

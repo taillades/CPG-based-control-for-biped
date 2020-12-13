@@ -2,30 +2,55 @@ clc;
 clear;
 close all;
 
+% NAME FOR WHO WE OPTIMIZE
+global what_do_we_opt;
+what_do_we_opt = 'opt_param_set/slowest_parameters';
 % optimize
 % optimize the initial conditions and controller hyper parameters
 q0 = [pi/9; -pi/9; 0];
 dq0 = [0; 0; 8]; 
 n0 = [30; -11.5; 0];
-parameters = control_hyper_parameters();
-fun_g = g('full','suite');
+fun_g = g;
 save('fun_g','fun_g');
+x0 = [q0; dq0; n0; control_hyper_parameters];
 
-x0 = [q0; dq0; n0; parameters];
-
-load('param_opt');
-
-%% THIS PART IS TO DO LOCAL OPTIMIZATION, UNAVAILABLE AT THE MOMENT
+%% THIS PART IS TO DO LOCAL OPTIMIZATION, AVAILABLE
 % use fminsearch and optimset to control the MaxIter
-options = optimset('TolX',0.2,'MaxIter',30,'display','iter');
+delete 'param_opt.mat'
+options = optimset('OutputFcn', @outfun, 'TolX', 0.2, 'TolFun', 0.2, 'MaxIter',30,'display','iter');
 %optimize only omega, gamma, K
-param_opt(15:17) = fminsearch(@custom_optimization_fun,x0(15:17),options)
-save('param_opt','param_opt');
+
+param_opt = fminsearch(@optimization_fun,x0(10:17),options)
+
+
+%% TO SAVE RESULTS
+try 
+    load('param_opt.mat', 'x')
+    param_opt = x
+end
+
+save(what_do_we_opt,'x');
+
+%% simulate solution
+clc
+close all;
+% extract parameters
+load(what_do_we_opt, 'x')
+x_opt = x;
+
+% simulate
+num_steps = 30;
+noise = normrnd(-0,0.12,[num_steps,3]);
+noise = zeros(num_steps,3);
+sln = solve_eqns(q0, dq0, n0, num_steps, x_opt, fun_g, noise);
+animate(sln);
+results = analyse(sln, x_opt,0,0,1);
+
 
 %% THIS PART IS TO DO GLOBAL OPTIMIZATION, AVAILABLE
 problem = createOptimProblem('fmincon',...
-    'objective',@(x)custom_optimization_fun(x),...
-    'x0',parameters,'options',...
+    'objective',@(x)optimization_fun(x),...
+    'x0',param_opt,'options',...
     optimoptions(@fmincon,'Algorithm','sqp','Display','off'));
 param_opt(10:17) = fmincon(problem);
 gs = GlobalSearch('Display','iter');
@@ -33,40 +58,3 @@ rng(14,'twister') % for reproducibility
 [x,fval] = run(gs,problem)
 save('param_opt','param_opt');
 
-%% DISPLAY RESULTS
-disp("q");
-param_opt(1:3)
-disp("dq");
-param_opt(4:6)
-disp("x");
-param_opt(7:8)
-disp("teta_0");
-param_opt(9)
-disp("kp");
-param_opt(10:11)
-disp("kd");
-param_opt(12:13)
-disp("alpha");
-param_opt(14);
-disp("omega");
-param_opt(15)
-disp("gamma");
-param_opt(16)
-disp("K");
-param_opt(17)
-
-%% simulate solution
-clc
-close all;
-param_opt(10:end) = control_hyper_parameters;
-% extract parameters
-q0 = param_opt(1:3);
-dq0 = param_opt(4:6);
-n0 = param_opt(7:9);
-x_opt = param_opt(10:end);
-
-% simulate
-num_steps = 10;
-sln = solve_eqns(q0, dq0, n0, num_steps, x_opt, fun_g);
-animate(sln);
-results = analyse(sln, x_opt,0,1);

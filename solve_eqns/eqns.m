@@ -1,4 +1,4 @@
-function dy = eqns(t, y, y0, step_number, parameters, fun_g)
+function dy = eqns(t, y, y0, step_number, parameters, fun_g, noise)
 
 % extract parameters 
 omega = parameters(6);
@@ -34,8 +34,8 @@ ratio = 0.5; %u_ff vs u_pd ratio in control
 % Formulate the differential equations
 dy = zeros(9, 1);
 
-%ADD EXTERNAL DISTURBANCE
-% create artificial random
+%ADD INTERNAL DISTURBANCE
+% artificial random could have been made like this
 % amplitude = 5;
 % prime_numbers = [467 389 397 379 269 311 293 491 449];
 % smaller_prime_numbers = [5 7 11];
@@ -44,9 +44,13 @@ dy = zeros(9, 1);
 % big_number = prime_numbers*variables;
 
 % dq1, dq2, dq3 
-dy(1) = y(4);%+ amplitude*(mod(big_number,s(1))-s(1)/2)/s(1);
-dy(2) = y(5);%+ amplitude*(mod(big_number,s(2))-s(2)/2)/s(2);
-dy(3) = y(6);%+ amplitude*(mod(big_number,s(3))-s(3)/2)/s(3);
+%dy(1) = y(4);%+ amplitude*(mod(big_number,s(1))-s(1)/2)/s(1);
+%dy(2) = y(5);%+ amplitude*(mod(big_number,s(2))-s(2)/2)/s(2);
+%dy(3) = y(6);%+ amplitude*(mod(big_number,s(3))-s(3)/2)/s(3);
+
+dy(1) = y(4) + noise(1);
+dy(2) = y(5) + noise(2);
+dy(3) = y(6) + noise(3);
 
 % q1, q2, q3
 dy(4:6) = M \ (-C*dq - G + B*(ratio*u_ff + (1-ratio)*u_pd)); 
