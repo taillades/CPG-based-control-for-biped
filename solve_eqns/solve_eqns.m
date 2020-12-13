@@ -1,10 +1,10 @@
-%% Solve equations of motion 
+%% Solve equations of motion
 % Note: eqns.m defines the equations of motion to be solved by this script
 % This function returns the time vector T, the solution Y, the event time
 % TE, solution at the event time YE.
 % q0, dq0 are the initial angles and angular velocities, num_steps are the
 % number of steps the robot is supposed to take
-% As an example you can use q0 = [pi/6; -pi/3; 0] and dq0 = [0;0;8]. 
+% As an example you can use q0 = [pi/6; -pi/3; 0] and dq0 = [0;0;8].
 
 function sln = solve_eqns(q0, dq0, n0, num_steps, parameters, fun_g, noise)
 
@@ -28,7 +28,7 @@ for i = 1:num_steps
     sln.Y{i} = Y;
     sln.TE{i} = TE;
     sln.YE{i} = YE;
-
+    
     if T(end) == tmax
         break
     end
@@ -36,7 +36,7 @@ for i = 1:num_steps
     if (length(YE) == 0)
         break
     end
-        
+    
     % Impact map
     q_m = YE(1:3)';
     dq_m = YE(4:6)';

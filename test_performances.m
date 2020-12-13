@@ -5,7 +5,7 @@ close all;
 % optimize
 % optimize the initial conditions and controller hyper parameters
 q0 = [pi/9; -pi/9; 0];
-dq0 = [0; 0; 8]; 
+dq0 = [0; 0; 8];
 n0 = [30; -11.5; 0];
 fun_g = g('full','suite');
 save('fun_g','fun_g');

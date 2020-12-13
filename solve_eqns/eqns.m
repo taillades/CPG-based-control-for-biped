@@ -44,10 +44,6 @@ dy = zeros(9, 1);
 % big_number = prime_numbers*variables;
 
 % dq1, dq2, dq3 
-%dy(1) = y(4);%+ amplitude*(mod(big_number,s(1))-s(1)/2)/s(1);
-%dy(2) = y(5);%+ amplitude*(mod(big_number,s(2))-s(2)/2)/s(2);
-%dy(3) = y(6);%+ amplitude*(mod(big_number,s(3))-s(3)/2)/s(3);
-
 dy(1) = y(4) + noise(1);
 dy(2) = y(5) + noise(2);
 dy(3) = y(6) + noise(3);
