@@ -34,7 +34,7 @@ hip_min = min(z_h);
 hip_start = z_h(1);
 
 
-results = [dist,sp_max, sp_mean, sp_min, mean(gait_len), CoT, hip_min, hip_start, std(gait_len), mean(gait_freq)];
+results = [dist,sp_max, sp_mean, sp_min, mean(gait_len), CoT, hip_min, hip_start, std(gait_len), 1/mean(gait_freq)];
 
 % calculate actuation (you can use the control function)
 
