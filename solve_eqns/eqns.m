@@ -53,7 +53,7 @@ dy(2) = y(5) + noise(2);
 dy(3) = y(6) + noise(3);
 
 % q1, q2, q3
-dy(4:6) = M \ (-C*dq - G + B*(ratio*u_ff + (1-ratio)*u_pd)); 
+dy(4:6) = M \ (-C*dq - G + B*(ratio*u_ff + (1-ratio)*u_pd)) + noise(4:6)'; 
 
 % Following the pattern
 dy(7) = gamma*(g1(teta)-x1) + dg1(teta)*omega + K;

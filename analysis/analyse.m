@@ -36,8 +36,6 @@ hip_start = z_h(1);
 
 results = [dist,sp_max, sp_mean, sp_min, mean(gait_len), CoT, hip_min, hip_start, std(gait_len), 1/mean(gait_freq)];
 
-% calculate actuation (you can use the control function)
-
 if to_plot_all
     
     figure('Name','Gait quality measures','Numbertitle','off')
@@ -122,7 +120,7 @@ if to_plot_all
     xlabel('t');
     ylabel('u_2');
     
-
+    
 end
 if to_plot_gait
     figure('Name','Gait','Numbertitle','off')
@@ -137,7 +135,7 @@ end
 % Plot neuron oscillator stuff
 if (to_plot_all || to_plot_NO)
     
-
+    
     
     figure('Name','Neuron Oscillator Values','Numbertitle','off')
     subplot(3,2,1)

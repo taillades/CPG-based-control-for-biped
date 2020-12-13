@@ -9,7 +9,7 @@ fun_g = load('fun_g');
 
 % run simulation
 num_steps = 30; % the higher the better, but slow
-no_noise = zeros(num_steps,3);
+no_noise = zeros(num_steps,6);
 sln = solve_eqns(q0, dq0, n0, num_steps, x, fun_g.fun_g, no_noise);
 results = analyse(sln, x, false, false, false);
 
@@ -30,16 +30,16 @@ w3 = 50;
 w4 = 50;
 
 % fastest as possible
-%objective_value = -w1*velocity+ max(0,0.8*hip_start-hip_min)*w2;
+%objective_value = -w3*velocity+ max(0,0.8*hip_start-hip_min)*w2;
 
 % slowest as possible
-objective_value = w1*velocity+ max(0,0.8*hip_start-hip_min)*w2;
+%objective_value = w1*velocity+ max(0,0.8*hip_start-hip_min)*w2;
 
 % to max step frequency 
-% objective_value = -w1*abs(distance)+ max(0,0.8*hip_start-hip_min)*w2 - w3*gait_freq;
+% objective_value = -w1*abs(distance)+ max(0,0.8*hip_start-hip_min)*w2 - 1/(w3*gait_freq);
 
 % to min step frequency 
-% objective_value = -w1*abs(distance)+ max(0,0.8*hip_start-hip_min)*w2 + w3*gait_freq;
+objective_value = -w1*abs(distance)+ max(0,0.8*hip_start-hip_min)*w2 + 1/(w3*gait_freq);
 
 % for self-selected step length
 % objective_value = -w1*abs(distance)+ max(0,0.8*hip_start-hip_min)*w2 + w3*gait_mean - w4*gait_std^2;

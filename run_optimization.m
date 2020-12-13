@@ -4,7 +4,7 @@ close all;
 
 % NAME FOR WHO WE OPTIMIZE
 global what_do_we_opt;
-what_do_we_opt = 'opt_param_set/min_freq_parameters';
+what_do_we_opt = 'opt_param_set/short_steps_parameters';
 % optimize
 % optimize the initial conditions and controller hyper parameters
 q0 = [pi/9; -pi/9; 0];
@@ -40,11 +40,10 @@ x_opt = x;
 
 % simulate
 num_steps = 30;
-noise = normrnd(-0,0.12,[num_steps,3]);
-noise = zeros(num_steps,3);
+noise = normrnd(-0.45,0.45,[num_steps,6]);
 sln = solve_eqns(q0, dq0, n0, num_steps, x_opt, fun_g, noise);
-% animate(sln);
-results = analyse(sln, x_opt,1,0,1)
+animate(sln);
+results = analyse(sln, x_opt,0,0,0)
 
 
 %% THIS PART IS TO DO GLOBAL OPTIMIZATION, AVAILABLE
